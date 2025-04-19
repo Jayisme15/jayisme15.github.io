@@ -3,10 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Game</title>
+    <title>Simple Game</title>
+    <style>
+        /* Basic styles for layout */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .menu, .game-container {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        h1 {
+            color: #333;
+        }
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .search-box {
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        .game-board {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .game-item {
+            padding: 20px;
+            margin: 10px;
+            background-color: lightblue;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>Play This Fun Game!</h1>
-    <iframe src="https://itch.io/embed/699406" width="600" height="400" frameborder="0"></iframe>
+    <!-- Main Menu -->
+    <div class="menu active" id="main-menu">
+        <h1>Welcome to the Simple Game</h1>
+        <button class="button" onclick="startGame()">Start Game</button>
+        <button class="button" onclick="showSearch()">Search Game Items</button>
+    </div>
+
+    <!-- Search Menu -->
+    <div class="menu" id="search-menu">
+        <h1>Search Game Items</h1>
+        <input type="text" id="search-input" class="search-box" placeholder="Search for items..." onkeyup="filterItems()">
+        <div id="search-results"></div>
+        <button class="button" onclick="goBackToMain()">Back to Main Menu</button>
+    </div>
+
+    <!-- Game Container -->
+    <div class="game-container" id="game-container">
+        <h1>Gameplay: Collect the Items</h1>
+        <div class="game-board" id="game-board">
+            <!-- Game items will be generated here -->
+        </div>
+        <button class="button" onclick="endGame()">End Game</button>
+    </div>
+
+    <script>
+        // Game Data
+        const gameItems = [
+            { id: 1, name: "Sword", description: "A sharp sword used in battles." },
+            { id: 2, name: "Shield", description: "A strong shield for protection." },
+            { id: 3, name: "Potion", description: "A healing potion to regain health." },
+            { id: 4, name: "Boots", description: "Boots that increase your speed." }
+        ];
+
+        // Start Game Function
+        function startGame() {
+            document.getElementById('main-menu').classList.remove('active');
+            document.getElementById('game-container').classList.add('active');
+            generateGameItems();
+        }
+
+        // Generate Game Items on the Board
+        function generateGameItems() {
+            const board = document.getElementById('game-board');
+            board.innerHTML = '';  // Clear any previous items
+            gameItems.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('game-item');
+                itemDiv.textContent = item.name;
+                itemDiv.onclick = () => collectItem(item);
+                board.appendChild(itemDiv);
+            });
+        }
+
+        // Collect an Item
+        function collectItem(item) {
+            alert(`You collected a ${item.name}! Description: ${item.description}`);
+        }
+
+        // End Game Function
+        function endGame() {
+            document.getElementById('game-container').classList.remove('active');
+            document.getElementById('main-menu').classList.add('active');
+        }
+
+        // Show Search Menu
+        function showSearch() {
+            document.getElementById('main-menu').classList.remove('active');
+            document.getElementById('search-menu').classList.add('active');
+        }
+
+        // Back to Main Menu
+        function goBackToMain() {
+            document.getElementById('search-menu').classList.remove('active');
+            document.getElementById('main-menu').classList.add('active');
+        }
+
+        // Filter Game Items Based on Search Input
+        function filterItems() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const results = gameItems.filter(item => item.name.toLowerCase().includes(query));
+            const resultsDiv = document.getElementById('search-results');
+            resultsDiv.innerHTML = '';  // Clear previous results
+
+            if (query === '') {
+                resultsDiv.innerHTML = '<p>Start typing to search for game items...</p>';
+            } else if (results.length > 0) {
+                results.forEach(item => {
+                    const resultDiv = document.createElement('div');
+                    resultDiv.textContent = `${item.name}: ${item.description}`;
+                    resultsDiv.appendChild(resultDiv);
+                });
+            } else {
+                resultsDiv.innerHTML = '<p>No items found.</p>';
+            }
+        }
+    </script>
 </body>
 </html>
