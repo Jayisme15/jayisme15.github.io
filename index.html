@@ -3,75 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3f3f3;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .login-box {
-            background-color: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: #ff69b4;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #ff1493;
-        }
-    </style>
+    <title>Random Game</title>
 </head>
 <body>
-
-    <div class="login-box">
-        <h2>Login</h2>
-        <form id="loginForm">
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <input type="submit" value="Login">
-        </form>
-    </div>
-
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent form submission
-
-            // Get the entered username and password
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            // Simulate login (this can be a simple check for demo purposes)
-            if (username === "user1" && password === "password123") {
-                window.location.href = "page1.html";  // Redirect to page1.html
-            } else if (username === "user2" && password === "password456") {
-                window.location.href = "page2.html";  // Redirect to page2.html
-            } else {
-                alert("Invalid credentials, please try again.");
-            }
-        });
-    </script>
-
+    <h1>Play This Fun Game!</h1>
+    <iframe src="https://itch.io/embed/699406" width="600" height="400" frameborder="0"></iframe>
 </body>
 </html>
