@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>V1X Login</title>
+  <title>Futuristic Login</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       background: linear-gradient(to right, #2e0854, #4b0082, #6a0dad);
@@ -18,25 +22,27 @@
 
     .container {
       background: rgba(0, 0, 0, 0.6);
-      padding: 40px;
+      padding: 40px 30px;
       border-radius: 15px;
       backdrop-filter: blur(10px);
       box-shadow: 0 0 20px #9b4d96;
-      width: 350px;
-      text-align: center;
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     h2 {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       color: #d8b9f2;
       font-size: 26px;
-      letter-spacing: 2px;
     }
 
     input {
       width: 100%;
       padding: 12px;
-      margin: 10px 0;
+      margin-bottom: 15px;
       background: #2e0854;
       border: none;
       border-bottom: 2px solid #d8b9f2;
@@ -44,12 +50,10 @@
       font-size: 16px;
       border-radius: 5px;
       outline: none;
-      transition: border-color 0.3s, box-shadow 0.3s;
     }
 
     input:focus {
       border-bottom-color: #8a2be2;
-      box-shadow: 0 0 5px #8a2be2;
     }
 
     button {
@@ -66,19 +70,15 @@
       border-radius: 5px;
     }
 
-    button:hover:not(:disabled) {
+    button:hover {
       background: #8a2be2;
-      transform: scale(1.05);
-    }
-
-    button:disabled {
-      opacity: 0.6;
-      cursor: wait;
+      transform: scale(1.03);
     }
 
     #message {
-      margin-top: 15px;
+      margin-top: 20px;
       font-size: 14px;
+      text-align: center;
     }
 
     .success {
@@ -93,80 +93,73 @@
 <body>
   <div class="container">
     <h2>V1X</h2>
-    <input type="text" id="username" placeholder="Username" autocomplete="username" />
-    <input type="password" id="password" placeholder="Password" autocomplete="current-password" />
-    <button id="loginBtn">Login</button>
-    <button id="signupBtn">Sign Up</button>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="handleLogin()">Login</button>
+    <button onclick="handleSignup()">Sign Up</button>
     <p id="message"></p>
   </div>
 
   <script>
     const scriptURL = 'https://script.google.com/macros/s/AKfycbyHQjD3C9ntFVtj55ew-3M-aOczfBuN18sLE21PXGFtWhw1PxU64ZDB6ViOBn-wgcZp0w/exec';
-    const loginBtn = document.getElementById('loginBtn');
-    const signupBtn = document.getElementById('signupBtn');
-    const usernameField = document.getElementById("username");
-    const passwordField = document.getElementById("password");
 
-    usernameField.addEventListener('input', clearMessage);
-    passwordField.addEventListener('input', clearMessage);
-
-    loginBtn.addEventListener('click', () => handleAuth('login'));
-    signupBtn.addEventListener('click', () => handleAuth('signup'));
-
-    async function handleAuth(action) {
-      const username = usernameField.value.trim();
-      const password = passwordField.value.trim();
-
+    async function handleLogin() {
+      const { username, password } = getInputValues();
       if (!username || !password) {
         displayMessage("❌ Please fill in all fields.", "error");
         return;
       }
 
-      setButtonsDisabled(true);
-
       try {
-        const response = await fetch(scriptURL, {
-          method: 'POST',
-          body: new URLSearchParams({ action, username, password })
-        });
-
-        const result = await response.text();
-
-        if (action === 'login') {
-          if (result === 'success') {
-            window.location.href = "https://Jayisme15.github.io/page1.html";
-          } else {
-            displayMessage("❌ Invalid username or password.", "error");
-          }
+        const result = await sendRequest('login', { username, password });
+        if (result === "success") {
+          window.location.href = "https://Jayisme15.github.io/page1.html";
         } else {
-          if (result === 'success') {
-            displayMessage("✅ Signed up successfully!", "success");
-          } else {
-            displayMessage("❌ Signup failed. Try a different username.", "error");
-          }
+          displayMessage("❌ Invalid username or password.", "error");
         }
-      } catch (err) {
+      } catch {
         displayMessage("❌ An error occurred. Please try again.", "error");
-      } finally {
-        setButtonsDisabled(false);
       }
     }
 
+    async function handleSignup() {
+      const { username, password } = getInputValues();
+      if (!username || !password) {
+        displayMessage("❌ Please fill in all fields.", "error");
+        return;
+      }
+
+      try {
+        const result = await sendRequest('signup', { username, password });
+        if (result === "success") {
+          displayMessage("✅ Signed up successfully!", "success");
+        } else {
+          displayMessage("❌ Signup failed. Try a different username.", "error");
+        }
+      } catch {
+        displayMessage("❌ An error occurred. Please try again.", "error");
+      }
+    }
+
+    function getInputValues() {
+      return {
+        username: document.getElementById("username").value.trim(),
+        password: document.getElementById("password").value.trim()
+      };
+    }
+
+    async function sendRequest(action, data) {
+      const response = await fetch(scriptURL, {
+        method: 'POST',
+        body: new URLSearchParams({ action, ...data })
+      });
+      return response.text();
+    }
+
     function displayMessage(message, type) {
-      const msg = document.getElementById("message");
-      msg.textContent = message;
-      msg.className = type;
-    }
-
-    function clearMessage() {
-      const msg = document.getElementById("message");
-      msg.textContent = '';
-      msg.className = '';
-    }
-
-    function setButtonsDisabled(state) {
-      loginBtn.disabled = state;
-      signupBtn.disabled = state;
+      const messageElement = document.getElementById("message");
+      messageElement.textContent = message;
+      messageElement.className = type;
     }
   </script>
 </body>
