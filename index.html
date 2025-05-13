@@ -3,13 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>V1X
-
-  </title>
+  <title>V1X</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -95,73 +91,43 @@
 <body>
   <div class="container">
     <h2>V1X</h2>
-    <input type="text" id="username" placeholder="Username" />
-    <input type="password" id="password" placeholder="Password" />
-    <button onclick="handleLogin()">Login</button>
-    <button onclick="handleSignup()">Sign Up</button>
+    <input type="text" id="HDFNJGHJK" placeholder="Username" />
+    <input type="password" id="GHWEOIQWE" placeholder="Password" />
+    <button onclick="LKJLKJLSD()">Login</button>
     <p id="message"></p>
   </div>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyHQjD3C9ntFVtj55ew-3M-aOczfBuN18sLE21PXGFtWhw1PxU64ZDB6ViOBn-wgcZp0w/exec';
+    function LKJLKJLSD() {
+      const user = document.getElementById("HDFNJGHJK").value.trim();
+      const pass = document.getElementById("GHWEOIQWE").value.trim();
 
-    async function handleLogin() {
-      const { username, password } = getInputValues();
-      if (!username || !password) {
-        displayMessage("❌ Please fill in all fields.", "error");
+      if (!user || !pass) {
+        displayMsg("❌ Please fill in all fields.", "error");
         return;
       }
 
-      try {
-        const result = await sendRequest('login', { username, password });
-        if (result === "success") {
+      const validLogins = [
+        { u: "jayisme15", p: "JayPatel12345$" },
+        { u: "ilovejay", p: "12345" }
+      ];
+
+      const isValid = validLogins.some(account => account.u === user && account.p === pass);
+
+      if (isValid) {
+        displayMsg("✅ Login successful!", "success");
+        setTimeout(() => {
           window.location.href = "https://Jayisme15.github.io/page1.html";
-        } else {
-          displayMessage("❌ Invalid username or password.", "error");
-        }
-      } catch {
-        displayMessage("❌ An error occurred. Please try again.", "error");
+        }, 1000);
+      } else {
+        displayMsg("❌ Invalid username or password.", "error");
       }
     }
 
-    async function handleSignup() {
-      const { username, password } = getInputValues();
-      if (!username || !password) {
-        displayMessage("❌ Please fill in all fields.", "error");
-        return;
-      }
-
-      try {
-        const result = await sendRequest('signup', { username, password });
-        if (result === "success") {
-          displayMessage("✅ Signed up successfully!", "success");
-        } else {
-          displayMessage("❌ Signup failed. Try a different username.", "error");
-        }
-      } catch {
-        displayMessage("❌ An error occurred. Please try again.", "error");
-      }
-    }
-
-    function getInputValues() {
-      return {
-        username: document.getElementById("username").value.trim(),
-        password: document.getElementById("password").value.trim()
-      };
-    }
-
-    async function sendRequest(action, data) {
-      const response = await fetch(scriptURL, {
-        method: 'POST',
-        body: new URLSearchParams({ action, ...data })
-      });
-      return response.text();
-    }
-
-    function displayMessage(message, type) {
-      const messageElement = document.getElementById("message");
-      messageElement.textContent = message;
-      messageElement.className = type;
+    function displayMsg(msg, type) {
+      const el = document.getElementById("message");
+      el.textContent = msg;
+      el.className = type;
     }
   </script>
 </body>
