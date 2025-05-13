@@ -50,7 +50,9 @@
     }
 
     .product img {
-      width: 80%; /* Smaller image size */
+      width: 100%; /* This makes the image take up the full width of the product container */
+      max-width: 250px; /* Maximum width of 250px for the image */
+      height: auto; /* Maintains the aspect ratio of the image */
       border-radius: 10px;
     }
 
@@ -113,7 +115,7 @@
   </div>
 
   <script>
-    const username = localStorage.getItem("loggedInUser") || "Someone";
+    const username = localStorage.getItem("loggedInUser") || "Stranger just ";
 
     function buy(product, price) {
       const webhookURL = "https://discord.com/api/webhooks/1371961907061325895/Vx203ihlIv3cMby1GQLy32L--TNN4sK_ibQ_plziJM4MPY1d_nlJP1rJVW7vsa0Bd0Yq";
