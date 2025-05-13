@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>V1X</title>
+  <title>Jay's Store</title>
   <style>
     body {
       background: #1a1a1a;
@@ -14,6 +14,22 @@
     h1 {
       color: #e0b3ff;
     }
+    .nav-buttons {
+      margin-bottom: 30px;
+    }
+    .nav-buttons button {
+      background: #6a0dad;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .nav-buttons button:hover {
+      background: #8a2be2;
+    }
     .product {
       background: #2a2a2a;
       border-radius: 10px;
@@ -21,6 +37,7 @@
       margin: 20px auto;
       width: 300px;
       box-shadow: 0 0 10px #8a2be2;
+      display: none; /* Hidden by default */
     }
     .product img {
       width: 100%;
@@ -45,18 +62,39 @@
 
   <h1>Welcome to Jay's Store</h1>
 
-  <div class="product">
-    <img src="https://via.placeholder.com/300x200?text=Galaxy+Hoodie">
-    <h2>Galaxy Hoodie</h2>
-    <p>$25</p>
+  <div class="nav-buttons">
+    <button onclick="filterProducts('all')">All</button>
+    <button onclick="filterProducts('hoodies')">Edibles</button>
+    <button onclick="filterProducts('blades')">Weed</button>
+    <button onclick="filterProducts('vapes')">Vapes</button>
+  </div>
+
+  <div class="product hoodies">
+    <img src="https://imgur.com/a/khboi65">
+    <h2>Hidden Hills Mini Mart Bar THCP 1G</h2>
+    <p>$30</p>
     <button class="buy-btn" onclick="buy('Galaxy Hoodie', '$25')">Buy</button>
   </div>
 
-  <div class="product">
+  <div class="product blades">
     <img src="https://via.placeholder.com/300x200?text=Star+Blade">
     <h2>Star Blade</h2>
     <p>$40</p>
     <button class="buy-btn" onclick="buy('Star Blade', '$40')">Buy</button>
+  </div>
+
+  <div class="product vapes">
+    <img src="https://via.placeholder.com/300x200?text=Blueberry+Vape">
+    <h2>Blueberry Vape</h2>
+    <p>$20</p>
+    <button class="buy-btn" onclick="buy('Blueberry Vape', '$20')">Buy</button>
+  </div>
+
+  <div class="product vapes">
+    <img src="https://via.placeholder.com/300x200?text=Mango+Vape">
+    <h2>Mango Vape</h2>
+    <p>$22</p>
+    <button class="buy-btn" onclick="buy('Mango Vape', '$22')">Buy</button>
   </div>
 
   <script>
@@ -65,7 +103,6 @@
     function buy(product, price) {
       const webhookURL = "https://discord.com/api/webhooks/1371961907061325895/Vx203ihlIv3cMby1GQLy32L--TNN4sK_ibQ_plziJM4MPY1d_nlJP1rJVW7vsa0Bd0Yq";
 
-      // Send webhook
       fetch(webhookURL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -74,16 +111,28 @@
         })
       });
 
-      // Save purchase history
       const history = JSON.parse(localStorage.getItem("purchaseHistory") || "[]");
       history.push({ user: username, product, price, time: new Date().toLocaleString() });
       localStorage.setItem("purchaseHistory", JSON.stringify(history));
 
-      // Go to confirmation
       localStorage.setItem("lastProduct", product);
       localStorage.setItem("lastPrice", price);
       window.location.href = "checkout.html";
     }
+
+    function filterProducts(category) {
+      const products = document.querySelectorAll(".product");
+      products.forEach(p => {
+        if (category === "all" || p.classList.contains(category)) {
+          p.style.display = "block";
+        } else {
+          p.style.display = "none";
+        }
+      });
+    }
+
+    // Show all on first load
+    filterProducts('all');
   </script>
 </body>
 </html>
