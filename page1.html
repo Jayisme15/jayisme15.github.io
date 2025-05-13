@@ -30,19 +30,30 @@
     .nav-buttons button:hover {
       background: #8a2be2;
     }
+
+    /* Flexbox for the product display */
+    .products-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
     .product {
       background: #2a2a2a;
       border-radius: 10px;
       padding: 20px;
-      margin: 20px auto;
-      width: 300px;
+      width: 250px; /* Adjusted size for horizontal display */
       box-shadow: 0 0 10px #8a2be2;
       display: none; /* Hidden by default */
+      text-align: center;
     }
+
     .product img {
-      width: 100%;
+      width: 80%; /* Smaller image size */
       border-radius: 10px;
     }
+
     .buy-btn {
       background: #6a0dad;
       color: white;
@@ -53,6 +64,7 @@
       cursor: pointer;
       font-weight: bold;
     }
+
     .buy-btn:hover {
       background: #8a2be2;
     }
@@ -69,37 +81,39 @@
     <button onclick="filterProducts('vapes')">Vapes</button>
   </div>
 
-  <!-- 🌿 New Weed Product -->
-  <div class="product blades">
-    <img src="https://i.imgur.com/yeQIggV.png" alt="Hidden Hills Mini Mart Bar">
-    <h2>Hidden Hills Mini Mart Bar THCP 1G</h2>
-    <p>$30</p>
-    <button class="buy-btn" onclick="buy('Hidden Hills Mini Mart Bar THCP 1G', '$30')">Buy</button>
-  </div>
+  <div class="products-container">
+    <!-- 🌿 New Weed Product -->
+    <div class="product blades">
+      <img src="https://i.imgur.com/yeQIggV.png" alt="Hidden Hills Mini Mart Bar">
+      <h2>Hidden Hills Mini Mart Bar THCP 1G</h2>
+      <p>$30</p>
+      <button class="buy-btn" onclick="buy('Hidden Hills Mini Mart Bar THCP 1G', '$30')">Buy</button>
+    </div>
 
-  <div class="product blades">
-    <img src="https://via.placeholder.com/300x200?text=Star+Blade">
-    <h2>Star Blade</h2>
-    <p>$40</p>
-    <button class="buy-btn" onclick="buy('Star Blade', '$40')">Buy</button>
-  </div>
+    <div class="product blades">
+      <img src="https://via.placeholder.com/300x200?text=Star+Blade" alt="Star Blade">
+      <h2>Star Blade</h2>
+      <p>$40</p>
+      <button class="buy-btn" onclick="buy('Star Blade', '$40')">Buy</button>
+    </div>
 
-  <div class="product vapes">
-    <img src="https://via.placeholder.com/300x200?text=Blueberry+Vape">
-    <h2>Blueberry Vape</h2>
-    <p>$20</p>
-    <button class="buy-btn" onclick="buy('Blueberry Vape', '$20')">Buy</button>
-  </div>
+    <div class="product vapes">
+      <img src="https://via.placeholder.com/300x200?text=Blueberry+Vape" alt="Blueberry Vape">
+      <h2>Blueberry Vape</h2>
+      <p>$20</p>
+      <button class="buy-btn" onclick="buy('Blueberry Vape', '$20')">Buy</button>
+    </div>
 
-  <div class="product vapes">
-    <img src="https://via.placeholder.com/300x200?text=Mango+Vape">
-    <h2>Mango Vape</h2>
-    <p>$22</p>
-    <button class="buy-btn" onclick="buy('Mango Vape', '$22')">Buy</button>
+    <div class="product vapes">
+      <img src="https://via.placeholder.com/300x200?text=Mango+Vape" alt="Mango Vape">
+      <h2>Mango Vape</h2>
+      <p>$22</p>
+      <button class="buy-btn" onclick="buy('Mango Vape', '$22')">Buy</button>
+    </div>
   </div>
 
   <script>
-    const username = localStorage.getItem("loggedInUser") || "Stranger just ";
+    const username = localStorage.getItem("loggedInUser") || "Someone";
 
     function buy(product, price) {
       const webhookURL = "https://discord.com/api/webhooks/1371961907061325895/Vx203ihlIv3cMby1GQLy32L--TNN4sK_ibQ_plziJM4MPY1d_nlJP1rJVW7vsa0Bd0Yq";
