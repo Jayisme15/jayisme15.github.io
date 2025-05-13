@@ -69,11 +69,12 @@
     <button onclick="filterProducts('vapes')">Vapes</button>
   </div>
 
-  <div class="product hoodies">
-    <img src="https://imgur.com/a/khboi65">
+  <!-- 🌿 New Weed Product -->
+  <div class="product blades">
+    <img src="https://i.imgur.com/yeQIggV.png" alt="Hidden Hills Mini Mart Bar">
     <h2>Hidden Hills Mini Mart Bar THCP 1G</h2>
     <p>$30</p>
-    <button class="buy-btn" onclick="buy('Galaxy Hoodie', '$25')">Buy</button>
+    <button class="buy-btn" onclick="buy('Hidden Hills Mini Mart Bar THCP 1G', '$30')">Buy</button>
   </div>
 
   <div class="product blades">
@@ -98,7 +99,7 @@
   </div>
 
   <script>
-    const username = localStorage.getItem("loggedInUser") || "Someone";
+    const username = localStorage.getItem("loggedInUser") || "Stranger just ";
 
     function buy(product, price) {
       const webhookURL = "https://discord.com/api/webhooks/1371961907061325895/Vx203ihlIv3cMby1GQLy32L--TNN4sK_ibQ_plziJM4MPY1d_nlJP1rJVW7vsa0Bd0Yq";
@@ -116,8 +117,7 @@
       localStorage.setItem("purchaseHistory", JSON.stringify(history));
 
       localStorage.setItem("lastProduct", product);
-      localStorage.setItem("lastPrice", price);
-      window.location.href = "page2.html";
+      localStorage.setItem("lastPrice", price); 
     }
 
     function filterProducts(category) {
