@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Jay's Store</title>
+  <title>Dosely</title>
   <style>
     body {
       background: #1a1a1a;
@@ -11,12 +11,15 @@
       padding: 20px;
       text-align: center;
     }
+
     h1 {
       color: #e0b3ff;
     }
+
     .nav-buttons {
       margin-bottom: 30px;
     }
+
     .nav-buttons button {
       background: #6a0dad;
       color: white;
@@ -27,11 +30,11 @@
       cursor: pointer;
       font-weight: bold;
     }
+
     .nav-buttons button:hover {
       background: #8a2be2;
     }
 
-    /* Flexbox for the product display */
     .products-container {
       display: flex;
       flex-wrap: wrap;
@@ -43,9 +46,9 @@
       background: #2a2a2a;
       border-radius: 10px;
       padding: 20px;
-      width: 250px; /* Adjusted size for horizontal display */
+      width: 250px;
       box-shadow: 0 0 10px #8a2be2;
-      display: none; /* Hidden by default */
+      display: none;
       text-align: center;
     }
 
@@ -63,85 +66,177 @@
     .buy-btn:hover {
       background: #8a2be2;
     }
+
+    /* Popup Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.8);
+    }
+
+    .modal-content {
+      background-color: #2a2a2a;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #8a2be2;
+      color: white;
+      text-align: left;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+      background-color: #444;
+      color: white;
+    }
+
+    .modal-content button {
+      background-color: #6a0dad;
+      border: none;
+      padding: 10px;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+    }
+
+    .modal-content button:disabled {
+      background-color: gray;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body>
 
-  <h1>Welcome to Jay's Store</h1>
+<h1>Welcome to Dosely</h1>
 
-  <div class="nav-buttons">
-    <button onclick="filterProducts('all')">All</button>
-    <button onclick="filterProducts('hoodies')">Edibles</button>
-    <button onclick="filterProducts('blades')">Weed</button>
-    <button onclick="filterProducts('vapes')">Vapes</button>
+<div class="nav-buttons">
+  <button onclick="filterProducts('all')">All</button>
+  <button onclick="filterProducts('hoodies')">Edibles</button>
+  <button onclick="filterProducts('blades')">Weed</button>
+  <button onclick="filterProducts('vapes')">Vapes</button>
+</div>
+
+<div class="products-container">
+  <div class="product blades">
+    <img src="https://i.imgur.com/yeQIggV.png" alt="Hidden Hills Mini Mart Bar" width="200">
+    <h2>Hidden Hills Mini Mart Bar THCP 1G</h2>
+    <p>$30</p>
+    <button class="buy-btn" onclick="openForm('Hidden Hills Mini Mart Bar THCP 1G', '$30')">Buy</button>
   </div>
-
-  <div class="products-container">
-    <!-- 🌿 New Weed Product -->
-    <div class="product blades">
-      <img src="https://i.imgur.com/yeQIggV.png" alt="Hidden Hills Mini Mart Bar" width="200" height="auto">
-      <h2>Hidden Hills Mini Mart Bar THCP 1G</h2>
-      <p>$30</p>
-      <button class="buy-btn" onclick="buy('Hidden Hills Mini Mart Bar THCP 1G', '$30')">Buy</button>
-    </div>
-
-    <div class="product blades">
-      <img src="https://via.placeholder.com/300x200?text=Star+Blade" alt="Star Blade" width="200" height="auto">
-      <h2>Star Blade</h2>
-      <p>$40</p>
-      <button class="buy-btn" onclick="buy('Star Blade', '$40')">Buy</button>
-    </div>
-
-    <div class="product vapes">
-      <img src="https://via.placeholder.com/300x200?text=Blueberry+Vape" alt="Blueberry Vape" width="200" height="auto">
-      <h2>Blueberry Vape</h2>
-      <p>$20</p>
-      <button class="buy-btn" onclick="buy('Blueberry Vape', '$20')">Buy</button>
-    </div>
-
-    <div class="product vapes">
-      <img src="https://via.placeholder.com/300x200?text=Mango+Vape" alt="Mango Vape" width="200" height="auto">
-      <h2>Mango Vape</h2>
-      <p>$22</p>
-      <button class="buy-btn" onclick="buy('Mango Vape', '$22')">Buy</button>
-    </div>
+  <div class="product blades">
+    <img src="https://via.placeholder.com/300x200?text=Star+Blade" alt="Star Blade" width="200">
+    <h2>Star Blade</h2>
+    <p>$40</p>
+    <button class="buy-btn" onclick="openForm('Star Blade', '$40')">Buy</button>
   </div>
+  <div class="product vapes">
+    <img src="https://via.placeholder.com/300x200?text=Blueberry+Vape" alt="Blueberry Vape" width="200">
+    <h2>Blueberry Vape</h2>
+    <p>$20</p>
+    <button class="buy-btn" onclick="openForm('Blueberry Vape', '$20')">Buy</button>
+  </div>
+  <div class="product vapes">
+    <img src="https://via.placeholder.com/300x200?text=Mango+Vape" alt="Mango Vape" width="200">
+    <h2>Mango Vape</h2>
+    <p>$22</p>
+    <button class="buy-btn" onclick="openForm('Mango Vape', '$22')">Buy</button>
+  </div>
+</div>
 
-  <script>
-    const username = localStorage.getItem("loggedInUser") || "Stranger just ";
+<!-- Form Modal -->
+<div id="buyModal" class="modal">
+  <div class="modal-content">
+    <h3>Complete Your Order</h3>
+    <input type="text" id="nameInput" placeholder="Your name" required>
+    <input type="text" id="dayInput" placeholder="What day?" required>
+    <input type="text" id="amountInput" placeholder="How much?" required>
+    <button id="sendButton" onclick="submitForm()">Send</button>
+  </div>
+</div>
 
-    function buy(product, price) {
-      const webhookURL = "https://discord.com/api/webhooks/1371961907061325895/Vx203ihlIv3cMby1GQLy32L--TNN4sK_ibQ_plziJM4MPY1d_nlJP1rJVW7vsa0Bd0Yq";
+<script>
+  let selectedProduct = '';
+  let selectedPrice = '';
+  const webhookURL = "https://discord.com/api/webhooks/1371961907061325895/Vx203ihlIv3cMby1GQLy32L--TNN4sK_ibQ_plziJM4MPY1d_nlJP1rJVW7vsa0Bd0Yq";
 
-      fetch(webhookURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          content: `@everyone @here 🛒 **${username}** bought **${product}** for **${price}**!`
-        })
-      });
+  function openForm(product, price) {
+    selectedProduct = product;
+    selectedPrice = price;
+    document.getElementById("buyModal").style.display = "block";
+    document.getElementById("sendButton").disabled = false;
+  }
 
-      const history = JSON.parse(localStorage.getItem("purchaseHistory") || "[]");
-      history.push({ user: username, product, price, time: new Date().toLocaleString() });
-      localStorage.setItem("purchaseHistory", JSON.stringify(history));
+  function submitForm() {
+    const name = document.getElementById("nameInput").value.trim();
+    const day = document.getElementById("dayInput").value.trim();
+    const amount = document.getElementById("amountInput").value.trim();
+    const sendBtn = document.getElementById("sendButton");
 
-      localStorage.setItem("lastProduct", product);
-      localStorage.setItem("lastPrice", price); 
+    if (!name || !day || !amount) {
+      alert("Please fill in all fields.");
+      return;
     }
 
-    function filterProducts(category) {
-      const products = document.querySelectorAll(".product");
-      products.forEach(p => {
-        if (category === "all" || p.classList.contains(category)) {
-          p.style.display = "block";
-        } else {
-          p.style.display = "none";
+    const embedData = {
+      embeds: [{
+        title: "🛒 New Order Placed",
+        color: 0x6a0dad,
+        fields: [
+          { name: "🧑 Name", value: name, inline: false },
+          { name: "🛍️ Product", value: selectedProduct, inline: false },
+          { name: "💰 Price", value: selectedPrice, inline: true },
+          { name: "📆 Pickup Day", value: day, inline: true },
+          { name: "🔢 Amount", value: amount, inline: true }
+        ],
+        timestamp: new Date().toISOString(),
+        footer: {
+          text: "Dosely",
+          icon_url: "https://i.imgur.com/yeQIggV.png"
         }
-      });
-    }
+      }]
+    };
 
-    // Show all on first load
-    filterProducts('all');
-  </script>
+    fetch(webhookURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(embedData)
+    }).then(() => {
+      sendBtn.disabled = true;
+      sendBtn.innerText = "Sent!";
+      setTimeout(() => {
+        document.getElementById("buyModal").style.display = "none";
+        sendBtn.innerText = "Send";
+        document.getElementById("nameInput").value = "";
+        document.getElementById("dayInput").value = "";
+        document.getElementById("amountInput").value = "";
+      }, 1000);
+    });
+  }
+
+  function filterProducts(category) {
+    const products = document.querySelectorAll(".product");
+    products.forEach(p => {
+      p.style.display = category === "all" || p.classList.contains(category) ? "block" : "none";
+    });
+  }
+
+  // Show all on load
+  filterProducts('all');
+</script>
+
 </body>
 </html>
