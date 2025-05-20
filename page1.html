@@ -7,13 +7,16 @@
     body {
       background: #1a1a1a;
       color: #fff;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
       padding: 20px;
       text-align: center;
     }
 
     h1 {
       color: #e0b3ff;
+      margin-bottom: 20px;
+      font-size: 2.5em;
     }
 
     .nav-buttons {
@@ -29,27 +32,40 @@
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
+      transition: background 0.3s, transform 0.2s;
     }
 
     .nav-buttons button:hover {
       background: #8a2be2;
+      transform: scale(1.05);
     }
 
     .products-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
+      justify-items: center;
     }
 
     .product {
       background: #2a2a2a;
       border-radius: 10px;
       padding: 20px;
-      width: 250px;
+      width: 100%;
+      max-width: 250px;
       box-shadow: 0 0 10px #8a2be2;
       display: none;
-      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+    }
+
+    .product img {
+      width: 100%;
+      border-radius: 6px;
+      margin-bottom: 10px;
     }
 
     .buy-btn {
@@ -61,13 +77,14 @@
       border-radius: 5px;
       cursor: pointer;
       font-weight: bold;
+      transition: background 0.3s;
     }
 
     .buy-btn:hover {
       background: #8a2be2;
     }
 
-    /* Popup Modal */
+    /* Modal Styling */
     .modal {
       display: none;
       position: fixed;
@@ -76,20 +93,21 @@
       top: 0;
       width: 100%;
       height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.8);
+      background-color: rgba(0,0,0,0.85);
+      align-items: center;
+      justify-content: center;
     }
 
     .modal-content {
       background-color: #2a2a2a;
-      margin: 15% auto;
       padding: 20px;
-      border: 1px solid #888;
-      width: 300px;
       border-radius: 10px;
+      width: 90%;
+      max-width: 350px;
       box-shadow: 0 0 10px #8a2be2;
       color: white;
       text-align: left;
+      position: relative;
     }
 
     .modal-content input {
@@ -117,6 +135,21 @@
       background-color: gray;
       cursor: not-allowed;
     }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: #ccc;
+      font-size: 1.5em;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -132,38 +165,39 @@
 
 <div class="products-container">
   <div class="product blades">
-    <img src="https://i.imgur.com/yeQIggV.png" alt="Hidden Hills Mini Mart Bar" width="200">
+    <img src="https://i.imgur.com/yeQIggV.png" alt="Hidden Hills Mini Mart Bar">
     <h2>Hidden Hills Mini Mart Bar THCP 1G</h2>
     <p>$30</p>
     <button class="buy-btn" onclick="openForm('Hidden Hills Mini Mart Bar THCP 1G', '$30')">Buy</button>
   </div>
   <div class="product blades">
-    <img src="https://via.placeholder.com/300x200?text=Star+Blade" alt="Star Blade" width="200">
+    <img src="https://via.placeholder.com/300x200?text=Star+Blade" alt="Star Blade">
     <h2>Star Blade</h2>
     <p>$40</p>
     <button class="buy-btn" onclick="openForm('Star Blade', '$40')">Buy</button>
   </div>
   <div class="product vapes">
-    <img src="https://via.placeholder.com/300x200?text=Blueberry+Vape" alt="Blueberry Vape" width="200">
+    <img src="https://via.placeholder.com/300x200?text=Blueberry+Vape" alt="Blueberry Vape">
     <h2>Blueberry Vape</h2>
     <p>$20</p>
     <button class="buy-btn" onclick="openForm('Blueberry Vape', '$20')">Buy</button>
   </div>
   <div class="product vapes">
-    <img src="https://via.placeholder.com/300x200?text=Mango+Vape" alt="Mango Vape" width="200">
+    <img src="https://via.placeholder.com/300x200?text=Mango+Vape" alt="Mango Vape">
     <h2>Mango Vape</h2>
     <p>$22</p>
     <button class="buy-btn" onclick="openForm('Mango Vape', '$22')">Buy</button>
   </div>
 </div>
 
-<!-- Form Modal -->
+<!-- Modal -->
 <div id="buyModal" class="modal">
   <div class="modal-content">
+    <button class="close-btn" onclick="closeForm()">&times;</button>
     <h3>Complete Your Order</h3>
-    <input type="text" id="nameInput" placeholder="Your name" required>
-    <input type="text" id="dayInput" placeholder="What day?" required>
-    <input type="text" id="amountInput" placeholder="How much?" required>
+    <input type="text" id="nameInput" placeholder="Your name">
+    <input type="text" id="dayInput" placeholder="What day?">
+    <input type="text" id="amountInput" placeholder="How much?">
     <button id="sendButton" onclick="submitForm()">Send</button>
   </div>
 </div>
@@ -176,8 +210,12 @@
   function openForm(product, price) {
     selectedProduct = product;
     selectedPrice = price;
-    document.getElementById("buyModal").style.display = "block";
+    document.getElementById("buyModal").style.display = "flex";
     document.getElementById("sendButton").disabled = false;
+  }
+
+  function closeForm() {
+    document.getElementById("buyModal").style.display = "none";
   }
 
   function submitForm() {
@@ -196,11 +234,11 @@
         title: "🛒 New Order Placed",
         color: 0x6a0dad,
         fields: [
-          { name: "🧑 Name", value: name, inline: false },
-          { name: "🛍️ Product", value: selectedProduct, inline: false },
-          { name: "💰 Price", value: selectedPrice, inline: true },
-          { name: "📆 Pickup Day", value: day, inline: true },
-          { name: "🔢 Amount", value: amount, inline: true }
+          { name: "🧑 Name", value: name },
+          { name: "🛍️ Product", value: selectedProduct },
+          { name: "💰 Price", value: selectedPrice },
+          { name: "📆 Pickup Day", value: day },
+          { name: "🔢 Amount", value: amount }
         ],
         timestamp: new Date().toISOString(),
         footer: {
@@ -218,7 +256,7 @@
       sendBtn.disabled = true;
       sendBtn.innerText = "Sent!";
       setTimeout(() => {
-        document.getElementById("buyModal").style.display = "none";
+        closeForm();
         sendBtn.innerText = "Send";
         document.getElementById("nameInput").value = "";
         document.getElementById("dayInput").value = "";
@@ -230,12 +268,12 @@
   function filterProducts(category) {
     const products = document.querySelectorAll(".product");
     products.forEach(p => {
-      p.style.display = category === "all" || p.classList.contains(category) ? "block" : "none";
+      p.style.display = (category === "all" || p.classList.contains(category)) ? "block" : "none";
     });
   }
 
-  // Show all on load
-  filterProducts('all');
+  // Default filter
+  filterProducts("all");
 </script>
 
 </body>
